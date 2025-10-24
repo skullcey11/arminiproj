@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
   <title>AR Product Display</title>
   
   <!-- Model Viewer library -->
@@ -17,13 +18,15 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 100vh;
+      min-height: 100vh;
       position: relative;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
     model-viewer {
-      width: 90%;
-      height: 70vh;
+      width: 100%;
+      max-width: 900px;
+      height: calc(100vh - 140px);
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
@@ -65,13 +68,15 @@
 
   <!-- 3D Model -->
   <model-viewer id="arModel"
-                src="assets/shoe.glb"
+                src="assets/Astronaut.glb"
                 ar
                 ar-modes="webxr scene-viewer quick-look"
                 camera-controls
                 auto-rotate
+                exposure="1"
                 shadow-intensity="1"
-                environment-image="neutral">
+                environment-image="neutral"
+                poster="assets/Astronaut.glb">
 
     <!-- Hotspot attached to model -->
     <div class="hotspot" slot="hotspot" data-position="0m 0.3m 0m" id="hotspotLabel">
@@ -79,6 +84,13 @@
     </div>
 
   </model-viewer>
+
+  <!-- Mobile / AR instructions -->
+  <div id="instructions" style="max-width:900px;width:90%;margin-top:12px;text-align:center;color:#444;font-size:0.95rem;">
+    Tip: Tap the AR icon inside the viewer to try the model in your space. For best results open this page in Chrome (Android) or Safari (iOS). Make sure your phone and this computer are on the same Wi‑Fi if testing locally.
+  </div>
+
+  <noscript style="margin-top:12px;color:#a00;">JavaScript is required to load the 3D viewer. Please enable JavaScript.</noscript>
 
   <!-- Switch product button -->
   <button class="switch-btn" id="switchBtn">Switch Product</button>
@@ -89,8 +101,8 @@
     const switchBtn = document.getElementById('switchBtn');
 
     const products = [
-      { name: "Super Sneaker", price: "₹2999", src: "assets/shoe.glb" },
-      { name: "Smartphone X", price: "₹19999", src: "assets/phone.glb" }
+      { name: "Super Sneaker", price: "₹2999", src: "assets/Astronaut.glb" },
+      { name: "Smartphone X", price: "₹19999", src: "assets/Astronaut.glb" }
     ];
 
     let currentIndex = 0;
@@ -99,11 +111,15 @@
       currentIndex = (currentIndex + 1) % products.length;
       const product = products[currentIndex];
 
-      // Update model
-      modelViewer.src = product.src;
+        // Update model
+        modelViewer.src = product.src;
 
-      // Update hotspot label
-      hotspotLabel.innerHTML = `${product.name}<br>${product.price}`;
+        // Provide a brief visual feedback for mobile users
+        switchBtn.innerText = 'Switched: ' + product.name;
+        setTimeout(() => { switchBtn.innerText = 'Switch Product'; }, 1400);
+
+        // Update hotspot label
+        hotspotLabel.innerHTML = `${product.name}<br>${product.price}`;
     });
   </script>
 
