@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Product Display</title>
+  
+  <!-- Model Viewer library -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+    }
+
+    model-viewer {
+      width: 90%;
+      height: 70vh;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Hotspot label */
+    .hotspot {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #333;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transform: translate(-50%, -100%);
+      pointer-events: none;
+    }
+
+    /* Switch button */
+    .switch-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .switch-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 3D Model -->
+  <model-viewer id="arModel"
+                src="assets/shoe.glb"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                environment-image="neutral">
+
+    <!-- Hotspot attached to model -->
+    <div class="hotspot" slot="hotspot" data-position="0m 0.3m 0m" id="hotspotLabel">
+      Super Sneaker<br>₹2999
+    </div>
+
+  </model-viewer>
+
+  <!-- Switch product button -->
+  <button class="switch-btn" id="switchBtn">Switch Product</button>
+
+  <script>
+    const modelViewer = document.getElementById('arModel');
+    const hotspotLabel = document.getElementById('hotspotLabel');
+    const switchBtn = document.getElementById('switchBtn');
+
+    const products = [
+      { name: "Super Sneaker", price: "₹2999", src: "assets/shoe.glb" },
+      { name: "Smartphone X", price: "₹19999", src: "assets/phone.glb" }
+    ];
+
+    let currentIndex = 0;
+
+    switchBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % products.length;
+      const product = products[currentIndex];
+
+      // Update model
+      modelViewer.src = product.src;
+
+      // Update hotspot label
+      hotspotLabel.innerHTML = `${product.name}<br>${product.price}`;
+    });
+  </script>
+
+</body>
+</html>
