@@ -8,119 +8,250 @@
   
   <!-- Model Viewer library -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      min-height: 100vh;
-      position: relative;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    }
-
-    model-viewer {
-      width: 100%;
-      max-width: 900px;
-      height: calc(100vh - 140px);
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    /* Hotspot label */
-    .hotspot {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      color: #333;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transform: translate(-50%, -100%);
-      pointer-events: none;
-    }
-
-    /* Switch button */
-    .switch-btn {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-
-    .switch-btn:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <!-- App Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="mask-icon" href="assets/favicon.svg" color="#5b5bd6">
 </head>
 <body>
 
-  <!-- 3D Model -->
-  <model-viewer id="arModel"
-                src="assets/Astronaut.glb"
-                ar
-                ar-modes="webxr scene-viewer quick-look"
-                camera-controls
-                auto-rotate
-                exposure="1"
-                shadow-intensity="1"
-                environment-image="neutral"
-                poster="assets/Astronaut.glb">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">AR Product Display</h1>
+      <p class="tagline">Interact with the model, then place it in your space with AR.</p>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">◐</button>
+    </div>
+  </header>
 
-    <!-- Hotspot attached to model -->
-    <div class="hotspot" slot="hotspot" data-position="0m 0.3m 0m" id="hotspotLabel">
-      Super Sneaker<br>₹2999
+  <main class="container">
+    <!-- 3D Model -->
+    <div class="viewer-wrap">
+  <model-viewer id="arModel"
+                    src="assets/Astronaut.glb"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+        ar-placement="floor"
+                    camera-controls
+                    auto-rotate
+                    exposure="1"
+                    shadow-intensity="1"
+                    environment-image="neutral">
+
+        <!-- Hotspot attached to model -->
+        <div class="hotspot" slot="hotspot" data-position="0m 0.3m 0m" id="hotspotLabel">
+          Super Sneaker<br>₹2999
+        </div>
+
+      </model-viewer>
     </div>
 
-  </model-viewer>
+    <!-- Mobile / AR instructions -->
+    <div id="instructions" class="instructions">
+      Tip: Tap the AR icon inside the viewer to try the model in your space. For best results open this page in Chrome (Android) or Safari (iOS). If testing locally, make sure your phone and this computer are on the same Wi‑Fi.
+    </div>
 
-  <!-- Mobile / AR instructions -->
-  <div id="instructions" style="max-width:900px;width:90%;margin-top:12px;text-align:center;color:#444;font-size:0.95rem;">
-    Tip: Tap the AR icon inside the viewer to try the model in your space. For best results open this page in Chrome (Android) or Safari (iOS). Make sure your phone and this computer are on the same Wi‑Fi if testing locally.
-  </div>
+    <noscript class="nojs">JavaScript is required to load the 3D viewer. Please enable JavaScript.</noscript>
 
-  <noscript style="margin-top:12px;color:#a00;">JavaScript is required to load the 3D viewer. Please enable JavaScript.</noscript>
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn primary" id="switchBtn">Switch Product</button>
+    </div>
 
-  <!-- Switch product button -->
-  <button class="switch-btn" id="switchBtn">Switch Product</button>
+    <!-- Product Details Card -->
+    <div class="product-card" id="productCard">
+      <div class="product-header">
+        <div class="product-title-group">
+          <h2 id="productName">Loading...</h2>
+          <div class="product-meta">
+            <span class="product-rating">
+              <span class="stars" id="productStars">★★★★★</span>
+              <span id="productRatingValue">5.0</span>
+            </span>
+            <span class="stock-badge" id="stockBadge">In Stock</span>
+          </div>
+        </div>
+        <p class="product-price" id="productPrice">₹0</p>
+      </div>
+      <p class="product-description" id="productDescription">Loading product details...</p>
+      <div class="product-specs">
+        <h3>Specifications</h3>
+        <ul id="productSpecs">
+          <li>Loading...</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- AR overlay details (shown only in AR session) -->
+  <section class="ar-overlay hidden" id="arOverlay" aria-live="polite">
+    <div class="ar-row">
+      <div class="ar-info">
+        <div>
+          <p class="ar-title" id="arTitle">Super Sneaker</p>
+          <div class="ar-meta">
+            <span class="ar-price" id="arPrice">₹2999</span>
+            · <span class="stars" aria-label="4.6 out of 5 stars">★ ★ ★ ★ ☆</span>
+          </div>
+        </div>
+      </div>
+      <div class="ar-dismiss">
+        <button class="btn" id="arDismissBtn" aria-label="Hide AR tips">Hide</button>
+      </div>
+    </div>
+    <p class="ar-tips" id="arTips">Tip: Move your phone to scan the floor, tap to place, and pinch to scale. Drag with one finger to rotate.</p>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Powered by <code>&lt;model-viewer&gt;</code></small>
+    </div>
+  </footer>
 
   <script>
+    // App configuration: edit here when needed
+    const APP_CONFIG = {
+      // Prevent pinch-scaling in AR: 'fixed' | Allow user scaling: 'auto'
+      arScale: 'auto',
+      // Path to products data file
+      productsDataUrl: 'assets/products.json'
+    };
+
+    // Theme: persist light/dark mode
+    (function setupTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      const btn = document.getElementById('themeToggle');
+      btn?.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      });
+    })();
+
+    // Product switching with dynamic data loading
     const modelViewer = document.getElementById('arModel');
     const hotspotLabel = document.getElementById('hotspotLabel');
     const switchBtn = document.getElementById('switchBtn');
+    const arOverlay = document.getElementById('arOverlay');
+    const arTitle = document.getElementById('arTitle');
+    const arPrice = document.getElementById('arPrice');
+    const arDismissBtn = document.getElementById('arDismissBtn');
+    
+    // Product card elements
+    const productName = document.getElementById('productName');
+    const productPrice = document.getElementById('productPrice');
+    const productDescription = document.getElementById('productDescription');
+    const productStars = document.getElementById('productStars');
+    const productRatingValue = document.getElementById('productRatingValue');
+    const productSpecs = document.getElementById('productSpecs');
+    const stockBadge = document.getElementById('stockBadge');
 
-    const products = [
-      { name: "Super Sneaker", price: "₹2999", src: "assets/Astronaut.glb" },
-      { name: "Smartphone X", price: "₹19999", src: "assets/Astronaut.glb" }
-    ];
+    // Apply configurable AR behavior
+    if (APP_CONFIG.arScale) {
+      modelViewer.setAttribute('ar-scale', APP_CONFIG.arScale);
+    }
 
+    let products = [];
     let currentIndex = 0;
 
+    // Helper: render star rating
+    function renderStars(rating) {
+      const fullStars = Math.floor(rating);
+      const hasHalf = rating % 1 >= 0.5;
+      const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+      return '★'.repeat(fullStars) + (hasHalf ? '☆' : '') + '☆'.repeat(emptyStars);
+    }
+
+    // Update all UI elements with current product
+    function updateProduct(product) {
+      // Model viewer
+      modelViewer.src = product.model;
+      
+      // Hotspot
+      hotspotLabel.innerHTML = `${product.name}<br>${product.price}`;
+      
+      // AR overlay
+      arTitle.textContent = product.name;
+      arPrice.textContent = product.price;
+      
+      // Product card
+      productName.textContent = product.name;
+      productPrice.textContent = product.price;
+      productDescription.textContent = product.description;
+      productStars.textContent = renderStars(product.rating);
+      productRatingValue.textContent = product.rating.toFixed(1);
+      
+      // Stock badge
+      if (product.inStock) {
+        stockBadge.textContent = 'In Stock';
+        stockBadge.style.display = 'inline-block';
+      } else {
+        stockBadge.textContent = 'Out of Stock';
+        stockBadge.style.background = 'hsl(0 76% 36% / 0.15)';
+        stockBadge.style.color = 'hsl(0 76% 36%)';
+      }
+      
+      // Specifications
+      productSpecs.innerHTML = product.specifications
+        .map(spec => `<li>${spec}</li>`)
+        .join('');
+    }
+
+    // Load products from JSON
+    async function loadProducts() {
+      try {
+        const response = await fetch(APP_CONFIG.productsDataUrl);
+        if (!response.ok) throw new Error('Failed to load products');
+        const data = await response.json();
+        products = data.products;
+        
+        if (products.length > 0) {
+          updateProduct(products[currentIndex]);
+          switchBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+        productName.textContent = 'Error loading products';
+        productDescription.textContent = 'Please check the console for details.';
+        switchBtn.disabled = true;
+      }
+    }
+
+    // Switch product button
     switchBtn.addEventListener('click', () => {
+      if (products.length === 0) return;
+      
       currentIndex = (currentIndex + 1) % products.length;
       const product = products[currentIndex];
-
-        // Update model
-        modelViewer.src = product.src;
-
-        // Provide a brief visual feedback for mobile users
-        switchBtn.innerText = 'Switched: ' + product.name;
-        setTimeout(() => { switchBtn.innerText = 'Switch Product'; }, 1400);
-
-        // Update hotspot label
-        hotspotLabel.innerHTML = `${product.name}<br>${product.price}`;
+      
+      updateProduct(product);
+      
+      // Visual feedback
+      switchBtn.innerText = `Switched: ${product.name}`;
+      setTimeout(() => { switchBtn.innerText = 'Switch Product'; }, 1400);
     });
+
+    // Show/hide overlay only during AR session
+    modelViewer.addEventListener('ar-status', (event) => {
+      const status = event.detail.status;
+      if (status === 'session-started' || status === 'object-placed') {
+        arOverlay.classList.remove('hidden');
+      } else if (status === 'not-presenting' || status === 'failed') {
+        arOverlay.classList.add('hidden');
+      }
+    });
+
+    arDismissBtn.addEventListener('click', () => {
+      arOverlay.classList.add('hidden');
+    });
+
+    // Initialize: load products on page load
+    loadProducts();
   </script>
 
 </body>

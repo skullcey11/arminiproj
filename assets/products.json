@@ -1,0 +1,38 @@
+{
+  "products": [
+    {
+      "id": "astronaut-demo",
+      "name": "Astronaut Figure",
+      "price": "₹2999",
+      "priceValue": 2999,
+      "currency": "INR",
+      "rating": 4.6,
+      "model": "assets/Astronaut.glb",
+      "description": "High-quality astronaut figure with intricate details. Perfect for space enthusiasts and collectors. Features realistic texturing and articulated design. Made with premium materials for lasting durability.",
+      "specifications": [
+        "Height: 12 inches",
+        "Material: Premium resin",
+        "Includes display stand",
+        "Limited edition"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "smartphone-x",
+      "name": "Smartphone X Pro",
+      "price": "₹19999",
+      "priceValue": 19999,
+      "currency": "INR",
+      "rating": 4.8,
+      "model": "assets/Astronaut.glb",
+      "description": "Next-generation smartphone with cutting-edge technology. Features a stunning display, powerful processor, and advanced camera system. Experience seamless performance and elegant design.",
+      "specifications": [
+        "6.7\" OLED Display",
+        "128GB Storage",
+        "Triple camera system",
+        "5G enabled"
+      ],
+      "inStock": true
+    }
+  ]
+}
