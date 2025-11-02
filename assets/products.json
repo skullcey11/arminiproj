@@ -34,5 +34,108 @@
       ],
       "inStock": true
     }
+    ,
+    {
+      "id": "mountain-bike",
+      "name": "TrailMaster Bike",
+      "price": "₹14999",
+      "priceValue": 14999,
+      "currency": "INR",
+      "rating": 4.5,
+      "model": "assets/bike.glb",
+      "description": "Lightweight mountain bike built for rough trails. Durable frame, responsive suspension, and precise braking for confident rides.",
+      "specifications": [
+        "Aluminum frame",
+        "21-speed drivetrain",
+        "Hydraulic disc brakes",
+        "29-inch wheels"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "chainsaw-pro",
+      "name": "LumberPro Chainsaw",
+      "price": "₹7999",
+      "priceValue": 7999,
+      "currency": "INR",
+      "rating": 4.2,
+      "model": "assets/chainsaw.glb",
+      "description": "High-performance chainsaw for home and professional use. Ergonomic design with a powerful motor for efficient cutting.",
+      "specifications": [
+        "Power: 2.5 kW",
+        "Bar length: 18 inches",
+        "Anti-vibration handles",
+        "Automatic chain oiler"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "office-desk",
+      "name": "CraftDesk Pro",
+      "price": "₹9999",
+      "priceValue": 9999,
+      "currency": "INR",
+      "rating": 4.4,
+      "model": "assets/Desk.glb",
+      "description": "Modern office desk with clean lines and ample storage. Solid construction and finish suitable for home offices and studios.",
+      "specifications": [
+        "Material: Engineered wood",
+        "Dimensions: 140×70×75 cm",
+        "Cable management tray",
+        "Load capacity: 100 kg"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "male-figure",
+      "name": "Character Model (Male)",
+      "price": "₹4999",
+      "priceValue": 4999,
+      "currency": "INR",
+      "rating": 4.3,
+      "model": "assets/male_char.glb",
+      "description": "Stylized male character model suitable for games and visualization. Rigged and textured for quick integration.",
+      "specifications": [
+        "Rigged: Yes",
+        "Textures: PBR",
+        "Format: GLB",
+        "Polycount: Optimized for real-time"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "starbucks-mug",
+      "name": "Starbucks Cup (Replica)",
+      "price": "₹799",
+      "priceValue": 799,
+      "currency": "INR",
+      "rating": 4.1,
+      "model": "assets/starbucks.glb",
+      "description": "A realistic replica of a branded takeaway cup — perfect for mockups and scene props.",
+      "specifications": [
+        "Material: Ceramic (visual)",
+        "High-resolution texture",
+        "Suitable as scene prop",
+        "Includes lid"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "royal-throne",
+      "name": "Regal Throne",
+      "price": "₹25999",
+      "priceValue": 25999,
+      "currency": "INR",
+      "rating": 4.7,
+      "model": "assets/throne.glb",
+      "description": "Ornate throne with detailed carvings and rich materials. Ideal for interior visualizations and period scenes.",
+      "specifications": [
+        "Material: Ornate wood",
+        "Decorative upholstery",
+        "Dimensions: Large",
+        "Includes decorative cushions"
+      ],
+      "inStock": false
+    }
   ]
 }

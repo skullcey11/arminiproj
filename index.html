@@ -159,6 +159,18 @@
     let products = [];
     let currentIndex = 0;
 
+    // If user opened the file directly (file://), fetch will fail — show instructions
+    function showServerHint() {
+      productName.textContent = 'Run a local server to load products';
+      productDescription.innerHTML = 'The product data is loaded via <code>fetch</code>, which is blocked for local files. Start a local server in this folder and open <code>http://localhost:8000</code> from your browser (or your phone on the same Wi‑Fi).\n<br><br>PowerShell example:\n<code>python -m http.server 8000</code>';
+      switchBtn.disabled = true;
+    }
+
+    if (location.protocol === 'file:') {
+      // Short-circuit and instruct the user
+      showServerHint();
+    }
+
     // Helper: render star rating
     function renderStars(rating) {
       const fullStars = Math.floor(rating);
